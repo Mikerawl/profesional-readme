@@ -23,7 +23,6 @@ function getLicense(value) {
   }
 }
 
-
 function validateInput(value) {
   if (value != "") {
     return true;
@@ -81,15 +80,12 @@ const questions = [
   {
     type: "input",
     name: "userEmail",
-    message: "What is your email address for contributor contact?",
+    message: "What is an email address that contributors may contact?",
     validate: function (value) {
-      var filter =
-        /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      if (filter.test(email)) {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
         return true;
-      }
-      return {
-        false:"Not a valid email address. Please enter a valid email address";
+      } else {
+        return "Not a valid email address. Please enter a valid email address.";
       }
     },
   },
@@ -106,12 +102,12 @@ function writeToFile(fileName, data) {
 
 // TODO: Create a function to initialize app
 function init() {
-  inquirer.prompt(questions).then((answers) => {
-    console.log(JSON.stringify(data, null, ""));
+  inquirer.prompt(questions).then((data) => {
+    console.log(JSON.stringify(data, null, " "));
     data.getLicense = getLicense(data.license);
-    writeToFile("./example./README.md", data);
+    writeToFile("NEWREADME.md", data);
   });
 }
 
-// Function call to initialize app
+// call the function to initalize the beginning of the questions
 init();
